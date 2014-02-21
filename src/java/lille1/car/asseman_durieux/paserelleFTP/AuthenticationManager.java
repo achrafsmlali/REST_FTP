@@ -5,10 +5,13 @@ import javax.ws.rs.core.UriInfo;
 
 /**
  *
- * @author thomas
+ * @author Thomas Durieux
  */
 public interface AuthenticationManager {
+
   AuthenticationManager INSTANCE = new AuthenticationManagerImpl();
-  
-  ClientSession getSession (HttpHeaders httpHeaders, UriInfo uriInfo);
+
+  ClientSession getSession(HttpHeaders httpHeaders, UriInfo uriInfo);
+
+  void removeClientSession(ClientSession session);
 }

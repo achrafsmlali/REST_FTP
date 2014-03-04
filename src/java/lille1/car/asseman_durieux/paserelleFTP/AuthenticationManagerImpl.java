@@ -39,6 +39,7 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 
     ClientSession session = sessions.get(username + ":" + password);
     if (session == null) {
+
       session = new ClientSessionImpl(username, password);
       sessions.put(username + ":" + password, session);
     }

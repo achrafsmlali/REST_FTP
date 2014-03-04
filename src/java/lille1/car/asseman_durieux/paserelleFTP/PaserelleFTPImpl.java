@@ -1,5 +1,6 @@
 package lille1.car.asseman_durieux.paserelleFTP;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -66,7 +67,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    * @see PaserelleFTP
    */
   @Override
-  @GET
+  @DELETE
   @Path("/dir{path: .*}/{format: (json|xml|html)}")
   public Response removeFile(@PathParam("path") String path) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -77,7 +78,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @PUT
-  @Path("/dir{path: .*}")
+  @Path("/store{path: .*}")
   public Response storeFile(@PathParam("path") String path) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
@@ -87,7 +88,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @POST
-  @Path("/dir{path: .*}")
+  @Path("/mkDir{path: .*}")
   public Response mkDir(@PathParam("path") String path) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
@@ -97,7 +98,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @POST
-  @Path("/dir{path: .*}")
+  @Path("/rmDir{path: .*}")
   public Response rmDir(@PathParam("path") String path) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
@@ -107,7 +108,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @POST
-  @Path("/dir{fromPath: .*}/{toPath: .*}")
+  @Path("/rename{fromPath: .*}/{toPath: .*}")
   public Response rename(@PathParam("fromPath") String fromPath, @PathParam("toPath") String toPath) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }

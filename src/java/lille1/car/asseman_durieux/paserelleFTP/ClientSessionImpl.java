@@ -14,6 +14,7 @@ public class ClientSessionImpl implements ClientSession {
   String username;
   String password;
   private boolean isLogged = false;
+  private boolean isConnected = false;
 
   public ClientSessionImpl() {
     ftpClient = new FTPClient();
@@ -47,12 +48,14 @@ public class ClientSessionImpl implements ClientSession {
   }
 
   public void connect() throws ClientSessionException {
-    if (ftpClient.isConnected()) {
+    if (isConnected) {
       return;
     }
     try {
       FTPCommand.INSTANCE.connectClient(this);
+      isConnected = true;
     } catch (FTPCommandException e) {
+      isLogged = false;
       throw new ClientSessionException(e);
     }
   }
@@ -65,6 +68,7 @@ public class ClientSessionImpl implements ClientSession {
       FTPCommand.INSTANCE.loginClient(this);
       isLogged = true;
     } catch (FTPCommandException e) {
+      isLogged = false;
       throw new ClientSessionException(e);
     }
   }
@@ -74,8 +78,13 @@ public class ClientSessionImpl implements ClientSession {
       FTPCommand.INSTANCE.disconnectClient(this);
       AuthenticationManager.INSTANCE.removeClientSession(this);
       isLogged = false;
+      isConnected = false;
     } catch (FTPCommandException e) {
       throw new ClientSessionException(e);
     }
+  }
+
+  public boolean isLogged() {
+    return isLogged;
   }
 }

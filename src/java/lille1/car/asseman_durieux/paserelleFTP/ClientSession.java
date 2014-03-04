@@ -40,4 +40,6 @@ public interface ClientSession {
   void setPassword(String passwword);
 
   FTPClient getFTPClient();
+
+  public boolean isLogged();
 }

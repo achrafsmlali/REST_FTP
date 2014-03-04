@@ -24,6 +24,7 @@ public class FTPCommandImpl implements FTPCommand {
       String host = PasserelleFTPConfiguration.INSTANCE.getProperty("ftpHost");
       int port = PasserelleFTPConfiguration.INSTANCE.getIntProperty("ftpPort");
       clientSession.getFTPClient().connect(host, port);
+      clientSession.getFTPClient().enterLocalPassiveMode();
     } catch (SocketException ex) {
       throw new ClientSessionException("Unable to connect FTP client", ex);
     } catch (IOException ex) {
@@ -89,9 +90,10 @@ public class FTPCommandImpl implements FTPCommand {
     clientSession.login();
     try {
       clientSession.getFTPClient().setFileType(FTP.ASCII_FILE_TYPE);
-      FTPFile[] ftpFiles = clientSession.getFTPClient().listFiles(path);
+      clientSession.getFTPClient().cwd(path);
+      FTPFile[] ftpFiles = clientSession.getFTPClient().listFiles();
       Directory directory = new DirectoryImp();
-      directory.setName(path);
+      directory.setName(clientSession.getFTPClient().printWorkingDirectory());
       for (FTPFile fTPFile : ftpFiles) {
         Resource resource;
         if (fTPFile.isDirectory()) {
@@ -108,9 +110,9 @@ public class FTPCommandImpl implements FTPCommand {
       }
       return directory;
     } catch (IOException e) {
+      clientSession.disconnect();
       throw new FTPCommandException("Unable to retreive file", e);
     } finally {
-      //clientSession.disconnect();
     }
   }
 

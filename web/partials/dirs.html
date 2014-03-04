@@ -1,0 +1,33 @@
+<section>
+  <div bl-messages></div>
+  <h2><input="text" ng-model="currentPath"></h2>
+  <div class="options">
+    <label>
+      <input type="file" ng-model="file">
+      <span class="button" ng-show="file">{{file.title}}</span>
+      <span class="button" ng-show="!file">Envoyer fichier</span>
+    </label>
+    <button class="button send" ng-show="file">Envoyer</button>
+    <button class="button mkdir">Créer nouveau dossier</button>
+    <div class="search">
+      <input type="search" placeholder="Recherche" ng-model="search">
+    </div>
+    <div class="clear"></div>
+  </div>
+  <table class="files" cellspacing="0" cellpadding="0">
+    <tbody>
+      <tr>
+        <th>Nom</th>
+        <th>Taille</th>
+        <th>Propriétaire</th>
+        <th>Options</th>
+      </tr>
+      <tr ng-repeat="dir in current.listFile | orderBy:'name':reverse | filter:search" class="{{dir.type}}" ng-click="changeDir(dir)">
+        <td><span class="icon"></span>{{dir.name}}</td>
+        <td>{{dir.size}}</td>
+        <td>{{dir.owner}}</td>
+        <td><button class="button" ng-show="dir.type != 'directory'">Supprimer</button></td>
+      </tr>
+    </tbody>
+  </table>
+</section>

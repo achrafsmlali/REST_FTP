@@ -1,5 +1,6 @@
 package lille1.car.asseman_durieux.paserelleFTP;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketException;
@@ -58,12 +59,14 @@ public class FTPCommandImpl implements FTPCommand {
   public InputStream getFile(ClientSession clientSession, String path) {
     clientSession.login();
     try {
-      clientSession.getFTPClient().setFileType(FTP.BINARY_FILE_TYPE);
+      boolean val =  clientSession.getFTPClient().remoteRetrieve(path);
       return clientSession.getFTPClient().retrieveFileStream(path);
     } catch (IOException e) {
+        clientSession.disconnect();
       throw new FTPCommandException("Unable to retreive file", e);
+      
     } finally {
-      //clientSession.disconnect();
+      //
     }
   }
 
@@ -122,9 +125,21 @@ public class FTPCommandImpl implements FTPCommand {
       clientSession.getFTPClient().setFileType(FTP.BINARY_FILE_TYPE);
       clientSession.getFTPClient().storeFile(path, inputStream);
     } catch (IOException e) {
+        clientSession.disconnect();
       throw new FTPCommandException("IO error during uploading file");
     } finally {
       //clientSession.disconnect();
     }
   }
+
+    public void upload(ClientSession clientSession, String path, String file) {
+        clientSession.login();
+        try {
+          InputStream stream = new ByteArrayInputStream(file.getBytes("UTF-8"));
+          clientSession.getFTPClient().storeFile(path, stream);
+        } catch (IOException e) {
+            clientSession.disconnect();
+          throw new FTPCommandException("IO error during uploading file");
+        }
+    }
 }

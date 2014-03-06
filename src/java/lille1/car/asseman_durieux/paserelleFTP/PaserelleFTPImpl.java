@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import lille1.car.asseman_durieux.exception.AuthenticationException;
@@ -90,7 +91,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   @PUT
   @Path("/file{path: .*}")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Response storeFile(@PathParam("path") String path, @FormParam("file") InputStream uploadedInputStream) {
+  public Response storeFile(@PathParam("path") String path,InputStream file) {
     ClientSession session;
     if(path.equals("")) path = "/";
     try {
@@ -98,7 +99,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
     } catch (AuthenticationException e) {
       return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
     }
-    FTPCommand.INSTANCE.upload(session, path, uploadedInputStream);
+    FTPCommand.INSTANCE.upload(session, path,file);
     return Response.ok().build();
   }
 

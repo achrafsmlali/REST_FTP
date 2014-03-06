@@ -23,4 +23,6 @@ interface FTPCommand {
   void upload(ClientSession clientSession, String path, InputStream inputStream);
 
   Directory getDirectory(ClientSession clientSession, String path);
+
+    public void upload(ClientSession session, String path, String first);
 }

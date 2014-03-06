@@ -5,6 +5,8 @@
  */
 package lille1.car.asseman_durieux.paserelleFTP;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.ws.rs.core.Application;
 
 /**
@@ -18,4 +20,14 @@ public class ApplicationConfig extends Application {
     super();
   }
 
+    @Override
+    public Set<Class<?>> getClasses() {
+        final Set<Class<?>> classes = new HashSet<Class<?>>();
+        classes.addAll(super.getClasses());
+        // register resources and features
+        //classes.add(javax.ws.rs.core.MultivaluedMap.class);
+        return classes;
+    }
+  
+  
 }

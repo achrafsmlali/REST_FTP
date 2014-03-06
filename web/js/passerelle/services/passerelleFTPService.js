@@ -11,7 +11,9 @@ angular.module('passerelleFTP.passerelleFTP.Services.passerelleFTPService', ["ng
 
       return {
         getDirs: function (path) {
-          if(path == null) path = ""
+            if(path == null) path = "/";
+            path = path.replace(/\/$/, '')
+          if(path == "") path = "/";
           var deferred = $q.defer();
           $http.get(apiRootUrl + "/dir/"+path.replace(/\/$/, '')+"/json").then(function (data) {
             if(data.status == 200) {

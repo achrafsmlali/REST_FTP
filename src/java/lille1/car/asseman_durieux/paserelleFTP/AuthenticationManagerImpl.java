@@ -1,6 +1,5 @@
 package lille1.car.asseman_durieux.paserelleFTP;
 
-import com.sun.jersey.core.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +7,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.UriInfo;
 import lille1.car.asseman_durieux.exception.AuthenticationException;
 import lille1.car.asseman_durieux.exception.ClientSessionException;
+import org.apache.commons.net.util.Base64;
 
 /**
  *
@@ -33,7 +33,7 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
       throw new AuthenticationException("Header not present");
     }
     // Get username/password
-    String[] login = new String(Base64.decode(authHeaders.get(0).split("\\s")[1])).split(":");
+    String[] login = new String(Base64.decodeBase64(authHeaders.get(0).split("\\s")[1])).split(":");
     String username = login.length < 2 ? "" : login[0];
     String password = login.length < 2 ? "" : login[1];
 

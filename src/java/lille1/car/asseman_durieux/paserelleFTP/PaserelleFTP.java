@@ -23,6 +23,7 @@
  */
 package lille1.car.asseman_durieux.paserelleFTP;
 
+import java.io.InputStream;
 import javax.ws.rs.core.Response;
 
 /**
@@ -56,7 +57,7 @@ public interface PaserelleFTP {
    *
    * @return Response
    */
-  Response storeFile(String path);
+  Response storeFile(String path, InputStream stream);
 
   /**
    * Get a representation of a Directory

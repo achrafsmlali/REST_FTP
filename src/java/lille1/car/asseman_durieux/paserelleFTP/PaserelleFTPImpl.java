@@ -1,6 +1,9 @@
 package lille1.car.asseman_durieux.paserelleFTP;
 
+import java.io.InputStream;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -35,7 +38,13 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   @Path("/file{path: .*}")
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   public Response getFile(@PathParam("path") String path) {
-    ClientSession session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
+   ClientSession session;
+    if(path.equals("")) path = "/";
+    try {
+      session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
+    } catch (AuthenticationException e) {
+      return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
+    }
     return Response.ok(FTPCommand.INSTANCE.getFile(session, path)).build();
   }
 
@@ -48,6 +57,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   public Response getDir(@PathParam("path") String path, @PathParam("format") String format) {
     ClientSession session;
+    if(path.equals("")) path = "/";
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
@@ -76,11 +86,20 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   /**
    * @see PaserelleFTP
    */
-  @Override
+
   @PUT
-  @Path("/store{path: .*}")
-  public Response storeFile(@PathParam("path") String path) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+  @Path("/file{path: .*}")
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  public Response storeFile(@PathParam("path") String path, @FormParam("file") InputStream uploadedInputStream) {
+    ClientSession session;
+    if(path.equals("")) path = "/";
+    try {
+      session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
+    } catch (AuthenticationException e) {
+      return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
+    }
+    FTPCommand.INSTANCE.upload(session, path, uploadedInputStream);
+    return Response.ok().build();
   }
 
   /**

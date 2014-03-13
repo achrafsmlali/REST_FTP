@@ -1,12 +1,12 @@
-paserelleFTP
+PasserelleFTP
 ============
 fonctionnalités
 ---------
-* connection (login/mdp)
-* lister les fichiers
+* connection (login/mdp) (DONE)
+* lister les fichiers (DONE)
 * télécharger les fichiers vers un emplacement à sélectionner
 * uploader un fichier (formulaire web)
-* supprimer un fichier
+* supprimer un fichier (DONE)
 * se déconnecter
 
 autres critères

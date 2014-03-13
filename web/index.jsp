@@ -187,7 +187,8 @@
         '${pageContext.request.contextPath}/js/user/controllers/LogoutUserController.js',
         '${pageContext.request.contextPath}/js/passerelle/services/passerelleFTPService.js',
         '${pageContext.request.contextPath}/js/passerelle/controllers/passerelleFTPController.js',
-        '${pageContext.request.contextPath}/js/app.js'
+        '${pageContext.request.contextPath}/js/app.js',
+        '${pageContext.request.contextPath}/js/angular-base64.min.js'
       ], function() {
         // when all is done, execute bootstrap angular application
         angular.bootstrap(document, ['passerelleFTP']);

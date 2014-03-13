@@ -137,7 +137,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
       } catch (IOException ex) {
         return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
       }
-      return Response.ok().build();
+      return Response.ok("201 Created").status(201).build();
   }
 
   /**

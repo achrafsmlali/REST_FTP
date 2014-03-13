@@ -52,7 +52,9 @@ public class FTPCommandImpl implements FTPCommand {
         throw new FTPCommandException("Unable to logout client");
       }
     } catch (IOException ex) {
-      throw new FTPCommandException("Unable to logout client", ex);
+        /*
+         * On arrive dans ce cas lorsque le sereur FTP n'est pas accessible.
+         */
     }
   }
 

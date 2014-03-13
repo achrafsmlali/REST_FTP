@@ -34,12 +34,27 @@ angular.module("passerelleFTP.passerelleFTP.Controllers.passerelleFTPController"
             return ret.join('');
         }
       var downloadFile = function(path) { 
+          
+          downloadURL(document.location.href.replace(document.location.hash, "")+"rest"+path);
+          return;
         return passerelleFTPService.downloadFile(path, $rootScope.loggedUser).then(function(data) {
             var data = toBinaryString(data.data);
             data = "data:application/bytes;base64,"+btoa(data);
             document.location = data;
         });
       };
+      
+      var downloadURL = function downloadURL(url) {
+            var hiddenIFrameID = 'hiddenDownloader',
+                iframe = document.getElementById(hiddenIFrameID);
+            if (iframe === null) {
+                iframe = document.createElement('iframe');
+                iframe.id = hiddenIFrameID;
+                iframe.style.display = 'none';
+                document.body.appendChild(iframe);
+            }
+            iframe.src = url;
+        };
 
       loadDir($scope.currentPath);
 

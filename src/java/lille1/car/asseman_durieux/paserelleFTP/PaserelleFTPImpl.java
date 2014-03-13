@@ -1,6 +1,9 @@
 package lille1.car.asseman_durieux.paserelleFTP;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -110,7 +113,19 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   @POST
   @Path("/mkDir{path: .*}")
   public Response mkDir(@PathParam("path") String path) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+      ClientSession session;
+      if (path.equals("")) path = "/";
+      try {
+          session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
+      } catch (AuthenticationException e) {
+          return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
+      }
+      try {
+          session.getFTPClient().makeDirectory(path);
+      } catch (IOException ex) {
+        return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
+      }
+      return Response.ok().build();
   }
 
   /**

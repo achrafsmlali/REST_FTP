@@ -82,9 +82,21 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @DELETE
-  @Path("/dir{path: .*}/{format: (json|xml|html)}")
+  @Path("/dir{path: .*}")
   public Response removeFile(@PathParam("path") String path) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    ClientSession session;
+    if(path.equals("")) path = "/";
+    try {
+      session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
+    } catch (AuthenticationException e) {
+      return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
+    }
+    try {
+          session.getFTPClient().deleteFile(path);
+      } catch (IOException ex) {
+        return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
+      }
+      return Response.ok().build();
   }
 
   /**

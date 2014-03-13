@@ -50,5 +50,11 @@ angular.module("passerelleFTP.passerelleFTP.Controllers.passerelleFTPController"
         else
             downloadFile($scope.currentPath + "/" + dir.name);
       };
+      $scope.delete = function(dir) {
+          return passerelleFTPService.delete($scope.currentPath + "/" + dir.name + "/",$rootScope.loggedUser).then(function(data) {
+              $scope.dirs.splice($scope.dirs.indexOf(dir),1);
+         
+          })
+      }
     }
   ]);

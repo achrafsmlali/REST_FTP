@@ -26,7 +26,7 @@
         <td><span class="icon"></span>{{dir.name}}</td>
         <td>{{dir.size}}</td>
         <td>{{dir.owner}}</td>
-        <td><button class="button" ng-show="dir.type != 'directory'">Supprimer</button></td>
+        <td><button class="button" ng-show="dir.type != 'directory'" ng-click ="delete(dir)">Supprimer</button></td>
       </tr>
     </tbody>
   </table>

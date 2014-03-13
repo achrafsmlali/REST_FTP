@@ -23,7 +23,7 @@ angular.module('passerelleFTP.passerelleFTP.Services.passerelleFTPService', ['ba
           var deferred = $q.defer();
           var encodedUserNameAndPassword = $base64.encode(user.username + ':' + user.password);
           $http.defaults.headers.common['Authorization'] = 'Basic ' + encodedUserNameAndPassword;
-          $http.get(apiRootUrl + "/file/"+path.replace(/\/$/, '')).then(function (data) {
+          $http.get(apiRootUrl + "/"+path.replace(/\/$/, '')).then(function (data) {
             if(data.status == 200) {
               return deferred.resolve(data.data);
             }
@@ -35,7 +35,7 @@ angular.module('passerelleFTP.passerelleFTP.Services.passerelleFTPService', ['ba
           var deferred = $q.defer();
           var encodedUserNameAndPassword = $base64.encode(user.username + ':' + user.password);
           $http.defaults.headers.common['Authorization'] = 'Basic ' + encodedUserNameAndPassword;
-          $http.delete(apiRootUrl + "/file/"+path.replace(/\/$/, '')).then(function (data) {
+          $http.delete(apiRootUrl + "/"+path.replace(/\/$/, '')).then(function (data) {
             if(data.status == 200) {
               return deferred.resolve(data.data);
             }

@@ -39,7 +39,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @GET
-  @Path("/{path: .*}")
+  @Path("{path: .*}")
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   public Response getFile(@PathParam("path") String path) {
    ClientSession session;
@@ -82,10 +82,15 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @DELETE
-  @Path("/{path: .*}")
+  @Path("{path: .*}")
   public Response removeFile(@PathParam("path") String path) {
     ClientSession session;
-    if(path.equals("")) path = "/";
+    if(path == null) {
+        path = "/";
+    } 
+    if(path.charAt(0) != '/') {
+        path = "/" + path;
+    }
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
@@ -104,7 +109,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
 
   @PUT
-  @Path("/{path: .*}")
+  @Path("{path: .*}")
   @Consumes(MediaType.MULTIPART_FORM_DATA)
   public Response storeFile(@PathParam("path") String path,InputStream file) {
     ClientSession session;

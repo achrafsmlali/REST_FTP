@@ -22,11 +22,12 @@
         <th>Propriétaire</th>
         <th>Options</th>
       </tr>
-      <tr ng-repeat="dir in current.listFile | orderBy:'name':reverse | filter:search" class="{{dir.type}}" ng-click="changeDir(dir)">
-        <td><span class="icon"></span>{{dir.name}}</td>
+      
+      <tr ng-repeat="dir in current.listFile | orderBy:'name':reverse | filter:search" class="{{dir.type}}">
+        <td ng-click="changeDir(dir)"><span class="icon"></span>{{dir.name}}</td>
         <td>{{dir.size}}</td>
         <td>{{dir.owner}}</td>
-        <td><button class="button" ng-show="dir.type != 'directory'" ng-click ="delete(dir)">Supprimer</button></td>
+        <td><button class="button" ng-show="dir.type != 'directory'"  ng-click="delete(dir)">Supprimer</button></td>
       </tr>
     </tbody>
   </table>

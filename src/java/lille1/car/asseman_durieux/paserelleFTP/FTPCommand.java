@@ -24,5 +24,8 @@ interface FTPCommand {
 
   Directory getDirectory(ClientSession clientSession, String path);
 
-    public void upload(ClientSession session, String path, String first);
+  public void upload(ClientSession session, String path, String first);
+
+  public void mkdir(ClientSession session, String path);
+
 }

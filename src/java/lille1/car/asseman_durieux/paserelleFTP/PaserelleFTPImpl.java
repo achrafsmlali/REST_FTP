@@ -38,8 +38,13 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   @Path("{path: .*}")
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   public Response getFile(@PathParam("path") String path) {
-   ClientSession session;
-    if(path.equals("")) path = "/";
+    ClientSession session;
+    if (path == null) {
+      path = "/";
+    }
+    if (path.charAt(0) != '/') {
+      path = "/" + path;
+    }
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
@@ -57,11 +62,20 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   public Response getDir(@PathParam("path") String path, @PathParam("format") String format) {
     ClientSession session;
-    if(path.equals("")) path = "/";
+    if (path == null) {
+      path = "/";
+    }
+    if (path.charAt(0) != '/') {
+      path = "/" + path;
+    }
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
-      return Response.ok("401 Unauthorized").status(401).header("WWW-Authenticate", "Basic").build();
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      if (!requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
+        response = response.header("WWW-Authenticate", "Basic");
+      }
+      return response.build();
     }
     if (format.equals("json")) {
       return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toJson()).header("Content-Type", "application/json").build();
@@ -81,41 +95,53 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   @Path("{path: .*}")
   public Response removeFile(@PathParam("path") String path) {
     ClientSession session;
-    if(path == null) {
-        path = "/";
-    } 
-    if(path.charAt(0) != '/') {
-        path = "/" + path;
+    if (path == null) {
+      path = "/";
+    }
+    if (path.charAt(0) != '/') {
+      path = "/" + path;
     }
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
-      return Response.ok("401 Unauthorized").status(401).header("WWW-Authenticate", "Basic").build();
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      if (!requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
+        response = response.header("WWW-Authenticate", "Basic");
+      }
+      return response.build();
     }
     try {
-          session.getFTPClient().deleteFile(path);
-      } catch (IOException ex) {
-        return Response.ok("404 Ressource not found").status(404).header("WWW-Authenticate", "Basic").build();
-      }
-      return Response.ok().build();
+      session.getFTPClient().deleteFile(path);
+    } catch (IOException ex) {
+      return Response.ok("404 Ressource not found").status(404).header("WWW-Authenticate", "Basic").build();
+    }
+    return Response.ok().build();
   }
 
   /**
    * @see PaserelleFTP
    */
-
   @PUT
   @Path("{path: .*}")
-  @Consumes(MediaType.MULTIPART_FORM_DATA)
-  public Response storeFile(@PathParam("path") String path,InputStream file) {
+  @Consumes({MediaType.MULTIPART_FORM_DATA})
+  public Response storeFile(@PathParam("path") String path, InputStream file) {
     ClientSession session;
-    if(path.equals("")) path = "/";
+    if (path == null) {
+      path = "/";
+    }
+    if (path.charAt(0) != '/') {
+      path = "/" + path;
+    }
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
-      return Response.ok("401 Unauthorized").status(401).header("WWW-Authenticate", "Basic").build();
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      if (!requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
+        response = response.header("WWW-Authenticate", "Basic");
+      }
+      return response.build();
     }
-    FTPCommand.INSTANCE.upload(session, path,file);
+    FTPCommand.INSTANCE.upload(session, path, file);
     return Response.ok().build();
   }
 
@@ -124,21 +150,26 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @POST
-  @Path("/mkDir{path: .*}")
+  @Path("/mkdir{path: .*}")
   public Response mkDir(@PathParam("path") String path) {
-      ClientSession session;
-      if (path.equals("")) path = "/";
-      try {
-          session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
-      } catch (AuthenticationException e) {
-          return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
+    ClientSession session;
+    if (path == null) {
+      path = "/";
+    }
+    if (path.charAt(0) != '/') {
+      path = "/" + path;
+    }
+    try {
+      session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
+    } catch (AuthenticationException e) {
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      if (!requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
+        response = response.header("WWW-Authenticate", "Basic");
       }
-      try {
-          session.getFTPClient().makeDirectory(path);
-      } catch (IOException ex) {
-        return Response.ok("401 not allowed").status(401).header("WWW-Authenticate", "Basic").build();
-      }
-      return Response.ok("201 Created").status(201).build();
+      return response.build();
+    }
+    FTPCommand.INSTANCE.mkdir(session, path);
+    return Response.ok("200 Created").build();
   }
 
   /**

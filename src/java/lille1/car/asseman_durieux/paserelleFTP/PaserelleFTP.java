@@ -24,7 +24,6 @@
 package lille1.car.asseman_durieux.paserelleFTP;
 
 import java.io.InputStream;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 
 /**

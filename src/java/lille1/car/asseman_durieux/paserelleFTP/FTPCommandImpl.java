@@ -34,12 +34,16 @@ public class FTPCommandImpl implements FTPCommand {
   }
 
   public void loginClient(ClientSession clientSession) {
-    clientSession.connect();
+    try {
+      clientSession.connect();
+    } catch (FTPCommandException e) {
+      clientSession.disconnect();
+      clientSession.connect();
+    }
     try {
       boolean value = clientSession.getFTPClient().login(clientSession.getUsername(), clientSession.getPassword());
       if (!value) {
-        clientSession.getFTPClient().getStatus();
-        throw new FTPCommandException("Unable to login client: ");
+        throw new FTPCommandException("Unable to login client: bad password");
       }
     } catch (IOException ex) {
       throw new FTPCommandException("Unable to login client", ex);
@@ -52,23 +56,31 @@ public class FTPCommandImpl implements FTPCommand {
         throw new FTPCommandException("Unable to logout client");
       }
     } catch (IOException ex) {
-        /*
-         * On arrive dans ce cas lorsque le sereur FTP n'est pas accessible.
-         */
+      /*
+       * On arrive dans ce cas lorsque le sereur FTP n'est pas accessible.
+       */
     }
   }
 
-  public InputStream getFile(ClientSession clientSession, String path) {
+  public InputStream getFile(final ClientSession clientSession, String path) {
     clientSession.login();
     try {
-      boolean val =  clientSession.getFTPClient().remoteRetrieve(path);
-      return clientSession.getFTPClient().retrieveFileStream(path);
+      boolean val = clientSession.getFTPClient().remoteRetrieve(path);
+      InputStream inputStream = clientSession.getFTPClient().retrieveFileStream(path);
+      new Thread(new Runnable() {
+        public void run() {
+          try {
+            clientSession.getFTPClient().completePendingCommand();
+          } catch (IOException ex) {
+            clientSession.disconnect();
+            throw new FTPCommandException("Unable to retreive file", ex);
+          }
+        }
+      }).start();
+      return inputStream;
     } catch (IOException e) {
-        clientSession.disconnect();
+      clientSession.disconnect();
       throw new FTPCommandException("Unable to retreive file", e);
-      
-    } finally {
-      //
     }
   }
 
@@ -127,21 +139,31 @@ public class FTPCommandImpl implements FTPCommand {
       clientSession.getFTPClient().setFileType(FTP.BINARY_FILE_TYPE);
       clientSession.getFTPClient().storeFile(path, inputStream);
     } catch (IOException e) {
-        clientSession.disconnect();
+      clientSession.disconnect();
       throw new FTPCommandException("IO error during uploading file");
     } finally {
       //clientSession.disconnect();
     }
   }
 
-    public void upload(ClientSession clientSession, String path, String file) {
-        clientSession.login();
-        try {
-          InputStream stream = new ByteArrayInputStream(file.getBytes("UTF-8"));
-          clientSession.getFTPClient().storeFile(path, stream);
-        } catch (IOException e) {
-            clientSession.disconnect();
-          throw new FTPCommandException("IO error during uploading file");
-        }
+  public void upload(ClientSession clientSession, String path, String file) {
+    clientSession.login();
+    try {
+      InputStream stream = new ByteArrayInputStream(file.getBytes("UTF-8"));
+      clientSession.getFTPClient().storeFile(path, stream);
+    } catch (IOException e) {
+      clientSession.disconnect();
+      throw new FTPCommandException("IO error during uploading file");
     }
+  }
+
+  public void mkdir(ClientSession clientSession, String path) {
+    clientSession.login();
+    try {
+      clientSession.getFTPClient().mkd(path);
+    } catch (IOException ex) {
+      clientSession.disconnect();
+      throw new FTPCommandException("Unable to create directory", ex);
+    }
+  }
 }

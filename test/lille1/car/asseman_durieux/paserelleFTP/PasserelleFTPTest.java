@@ -42,9 +42,16 @@ public class PasserelleFTPTest {
      */
     @Test
     public void testAuthentification() {
+        // Trying to access without identification
         RestAssured.expect().
                 statusCode(401).
                 when().
+                get("/PasserelleFTP/rest/dir///tmp/json");
+        
+        // Should work better with identification
+        RestAssured.expect().
+                statusCode(200).
+                when().with().authentication().basic("user", "pass").
                 get("/PasserelleFTP/rest/dir///tmp/json");
     }
     

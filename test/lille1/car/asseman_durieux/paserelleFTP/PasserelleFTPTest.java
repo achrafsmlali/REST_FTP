@@ -37,10 +37,10 @@ public class PasserelleFTPTest {
     }
 
     /**
-     * Test authentification using the get command.
+     * Try to access the FTP server without identification, using the getDir command
      */
     @Test
-    public void testAuthentification() {
+    public void testGetDirAuthentification() {
         RestAssured.expect().
                 statusCode(401).
                 when().
@@ -48,10 +48,55 @@ public class PasserelleFTPTest {
     }
 
     /**
+     * Try to access the FTP server without identification, using the getFile command
+     */
+    @Test
+    public void testGetFileAuthentification() {
+        RestAssured.expect().
+                statusCode(401).
+                when().
+                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    }
+    
+    /**
+     * Try to access the FTP server without identification, using the removeFile command
+     */
+    @Test
+    public void testRemoveFileAuthentification() {
+        RestAssured.expect().
+                statusCode(401).
+                when().
+                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    }
+    
+    /**
+     * Try to access the FTP server without identification, using the storeFile command
+     */
+    @Test
+    public void testStoreFileAuthentification() {
+        RestAssured.expect().
+                statusCode(401).
+                when().
+                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    }
+    
+    /**
+     * Test a correct get command
+     */
+    @Test
+    public void testGetFile() {
+        RestAssured.expect().
+                statusCode(200).
+                when().with().authentication().basic("user", "pass").
+                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    }
+    
+    /**
      * Test FileNotFound return code using removeFile on a missing file.
      */
     @Test
     public void testFileNotFound() {
+
         RestAssured.expect().given()
                 .auth().preemptive()
                 .basic("user", "pass")
@@ -59,9 +104,5 @@ public class PasserelleFTPTest {
                 .statusCode(404);
 
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+
 }

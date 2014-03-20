@@ -1,4 +1,4 @@
-package test.lille1.car.asseman_durieux.paserelleFTP;
+package lille1.car.asseman_durieux.paserelleFTP;
 
 /*
  * To change this template, choose Tools | Templates
@@ -38,21 +38,58 @@ public class PasserelleFTPTest {
     }
     
     /**
-     * Test authentification using the get command.
+     * Try to access the FTP server without identification, using the getDir command
      */
     @Test
-    public void testAuthentification() {
-        // Trying to access without identification
+    public void testGetDirAuthentification() {
         RestAssured.expect().
                 statusCode(401).
                 when().
                 get("/PasserelleFTP/rest/dir///tmp/json");
-        
-        // Should work better with identification
+    }
+    
+    /**
+     * Try to access the FTP server without identification, using the getFile command
+     */
+    @Test
+    public void testGetFileAuthentification() {
+        RestAssured.expect().
+                statusCode(401).
+                when().
+                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    }
+    
+    /**
+     * Try to access the FTP server without identification, using the removeFile command
+     */
+    @Test
+    public void testRemoveFileAuthentification() {
+        RestAssured.expect().
+                statusCode(401).
+                when().
+                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    }
+    
+    /**
+     * Try to access the FTP server without identification, using the storeFile command
+     */
+    @Test
+    public void testStoreFileAuthentification() {
+        RestAssured.expect().
+                statusCode(401).
+                when().
+                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    }
+    
+    /**
+     * Test a correct get command
+     */
+    @Test
+    public void testGetFile() {
         RestAssured.expect().
                 statusCode(200).
                 when().with().authentication().basic("user", "pass").
-                get("/PasserelleFTP/rest/dir///tmp/json");
+                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
     }
     
     /**
@@ -63,12 +100,8 @@ public class PasserelleFTPTest {
         RestAssured.expect().
                 statusCode(404).
                 when().with().authentication().basic("user", "pass").
-                get("/PasserelleFTP/rest/tmp/azdlkugzadlugzeme5z7zelh");
+                delete("/PasserelleFTP/rest/tmp/azdlkugzadlugzeme5z7zelh");
     }
     
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    // TODO add test methods for correct requests with the other commands.
 }

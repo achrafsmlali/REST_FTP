@@ -10,6 +10,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import com.jayway.restassured.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  *
@@ -37,60 +41,146 @@ public class PasserelleFTPTest {
     }
 
     /**
-     * Try to access the FTP server without identification, using the getDir command
+     * Try to access the FTP server without identification, using the getDir
+     * command
      */
     @Test
     public void testGetDirAuthentification() {
         RestAssured.expect().
                 statusCode(401).
                 when().
-                get("/PasserelleFTP/rest/dir///tmp/json");
+                get("/PasserelleFTP/rest/dir//tmp/json");
     }
 
     /**
-     * Try to access the FTP server without identification, using the getFile command
+     * Try to access the FTP server without identification, using the getFile
+     * command
      */
     @Test
     public void testGetFileAuthentification() {
         RestAssured.expect().
                 statusCode(401).
                 when().
-                get("/PasserelleFTP/rest////dev/null/json");
+                get("/PasserelleFTP/rest/dev/null/json");
     }
-    
+
     /**
-     * Try to access the FTP server without identification, using the removeFile command
+     * Try to access the FTP server without identification, using the removeFile
+     * command
      */
     @Test
-    public void testRemoveFileAuthentification() {
-        RestAssured.expect().
-                statusCode(401).
-                when().
-                delete("/PasserelleFTP/rest/dir///tmp/json"); // TODO: which file to delete?
+    public void testRemoveFileAuthentification() throws IOException {
+        File temp = File.createTempFile("temp-file-name", ".tmp");
+        FileWriter fw = new FileWriter(temp.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write("tmp file");
+        bw.close();
+        temp.deleteOnExit();
+
+        RestAssured
+                .given().auth().preemptive()
+                .basic("user", "pass")
+                .multiPart(temp).when()
+                .put("/PasserelleFTP/rest/tmp/testFile");
+
+        RestAssured.expect().statusCode(401)
+                .given().delete("/PasserelleFTP/rest/tmp/testFile");
+
+        RestAssured.given().auth().preemptive()
+                .basic("user", "pass")
+                .delete("/PasserelleFTP/rest/tmp/testFile");
     }
-    
+
     /**
-     * Try to access the FTP server without identification, using the storeFile command
+     * Try to access the FTP server without identification, using the removeFile
+     * command
      */
     @Test
-    public void testStoreFileAuthentification() {
-        RestAssured.expect().
-                statusCode(401).
-                when().
-                put("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    public void testRemoveFile() throws IOException {
+        File temp = File.createTempFile("temp-file-name", ".tmp");
+        FileWriter fw = new FileWriter(temp.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write("tmp file");
+        bw.close();
+        temp.deleteOnExit();
+
+        RestAssured
+                .given().auth().preemptive()
+                .basic("user", "pass")
+                .multiPart(temp).when()
+                .put("/PasserelleFTP/rest/tmp/testFile");
+
+        RestAssured.expect().statusCode(200)
+                .given().auth().preemptive()
+                .basic("user", "pass")
+                .delete("/PasserelleFTP/rest/tmp/testFile");
     }
-    
+
+    /**
+     * Try to access the FTP server without identification, using the storeFile
+     * command
+     */
+    @Test
+    public void testStoreFileAuthentification() throws IOException {
+        File temp = File.createTempFile("temp-file-name", ".tmp");
+        FileWriter fw = new FileWriter(temp.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write("tmp file");
+        bw.close();
+        temp.deleteOnExit();
+
+        RestAssured.expect().statusCode(401)
+                .given().multiPart(temp).when()
+                .put("/PasserelleFTP/rest/tmp/testFile");
+    }
+
+    @Test
+    public void testStoreFile() throws IOException {
+        File temp = File.createTempFile("temp-file-name", ".tmp");
+        FileWriter fw = new FileWriter(temp.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write("tmp file");
+        bw.close();
+        temp.deleteOnExit();
+
+        RestAssured.expect().statusCode(200)
+                .given().auth().preemptive()
+                .basic("user", "pass")
+                .multiPart(temp).when()
+                .put("/PasserelleFTP/rest/tmp/testFile");
+
+        RestAssured.given().auth().preemptive()
+                .basic("user", "pass")
+                .delete("/PasserelleFTP/rest/tmp/testFile");
+    }
+
     /**
      * Test a correct get command
      */
     @Test
-    public void testGetFile() {
-        RestAssured.expect().
-                statusCode(200).
-                when().with().authentication().basic("user", "pass").
-                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+    public void testGetFile() throws IOException {
+        File temp = File.createTempFile("temp-file-name", ".tmp");
+        FileWriter fw = new FileWriter(temp.getAbsoluteFile());
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write("tmp file");
+        bw.close();
+        temp.deleteOnExit();
+
+        RestAssured.given().auth().preemptive()
+                .basic("user", "pass")
+                .multiPart(temp).when()
+                .put("/PasserelleFTP/rest/tmp/testFile");
+
+        RestAssured.expect().statusCode(200)
+                .given().auth().preemptive()
+                .basic("user", "pass")
+                .get("/PasserelleFTP/rest/tmp/testFile"); // TODO
+
+        RestAssured.given().auth().preemptive()
+                .basic("user", "pass")
+                .delete("/PasserelleFTP/rest/tmp/testFile");
     }
-    
+
     /**
      * Test FileNotFound return code using removeFile on a missing file.
      */

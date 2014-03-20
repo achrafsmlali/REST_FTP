@@ -10,5 +10,5 @@ package lille1.car.asseman_durieux.paserelleFTP.resource;
  */
 public interface Directory extends Resource {
 
-  void addResource(Resource resource);
+    void addResource(Resource resource);
 }

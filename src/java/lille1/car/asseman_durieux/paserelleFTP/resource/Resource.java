@@ -8,29 +8,29 @@ import java.util.Date;
  */
 public interface Resource {
 
-  public String getName();
+    public String getName();
 
-  public void setName(String name);
+    public void setName(String name);
 
-  public Date getCreationDate();
+    public Date getCreationDate();
 
-  public void setCreationDate(Date creationDate);
+    public void setCreationDate(Date creationDate);
 
-  public long getSize();
+    public long getSize();
 
-  public void setSize(long size);
+    public void setSize(long size);
 
-  public String getGroup();
+    public String getGroup();
 
-  public void setGroup(String group);
+    public void setGroup(String group);
 
-  public String getOwner();
+    public String getOwner();
 
-  public void setOwner(String owner);
+    public void setOwner(String owner);
 
-  String toJson();
+    String toJson();
 
-  String toHTML();
+    String toHTML();
 
-  String toXML();
+    String toXML();
 }

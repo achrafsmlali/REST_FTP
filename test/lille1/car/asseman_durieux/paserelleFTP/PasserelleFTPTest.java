@@ -56,7 +56,7 @@ public class PasserelleFTPTest {
         RestAssured.expect().
                 statusCode(401).
                 when().
-                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+                get("/PasserelleFTP/rest////dev/null/json");
     }
     
     /**
@@ -67,7 +67,7 @@ public class PasserelleFTPTest {
         RestAssured.expect().
                 statusCode(401).
                 when().
-                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+                delete("/PasserelleFTP/rest/dir///tmp/json"); // TODO: which file to delete?
     }
     
     /**
@@ -78,7 +78,7 @@ public class PasserelleFTPTest {
         RestAssured.expect().
                 statusCode(401).
                 when().
-                get("/PasserelleFTP/rest/dir///tmp/json"); // TODO
+                put("/PasserelleFTP/rest/dir///tmp/json"); // TODO
     }
     
     /**

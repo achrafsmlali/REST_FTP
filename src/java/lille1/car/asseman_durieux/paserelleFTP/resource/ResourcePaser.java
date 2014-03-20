@@ -6,7 +6,7 @@ package lille1.car.asseman_durieux.paserelleFTP.resource;
  */
 public class ResourcePaser {
 
-  public static Resource parse(String resourceString) {
-    return new DirectoryImp();
-  }
+    public static Resource parse(String resourceString) {
+        return new DirectoryImp();
+    }
 }

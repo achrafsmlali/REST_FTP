@@ -6,8 +6,8 @@ package lille1.car.asseman_durieux.config;
  * @author Durieux Thomas
  */
 public interface PasserelleFTPConfiguration extends PropertiesUtility {
-  /* Set instance */
+    /* Set instance */
 
-  PropertiesUtility INSTANCE = new PropertiesUtilityImpl(
-          PasserelleFTPConfiguration.class.getResourceAsStream("ftp_config.ini"));
+    PropertiesUtility INSTANCE = new PropertiesUtilityImpl(
+            PasserelleFTPConfiguration.class.getResourceAsStream("ftp_config.ini"));
 }

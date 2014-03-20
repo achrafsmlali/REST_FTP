@@ -1,5 +1,5 @@
 /**
- * Provides the exceptions
+ * Provides exceptions
  *
  * @author Thomas Durieux
  *

@@ -62,7 +62,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
   public Response getDir(@PathParam("path") String path, @PathParam("format") String format) {
     ClientSession session;
-    if (path == null) {
+    if (path == null || path.equals("")) {
       path = "/";
     }
     if (path.charAt(0) != '/') {

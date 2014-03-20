@@ -76,12 +76,14 @@ public class FTPCommandImpl implements FTPCommand {
     public InputStream getFile(final ClientSession clientSession, String path) {
         clientSession.login();
         try {
-            boolean val = clientSession.getFTPClient().remoteRetrieve(path);
             InputStream inputStream = clientSession.getFTPClient().retrieveFileStream(path);
+            if(clientSession.getFTPClient().getReplyCode() != 150) {
+                throw new FTPCommandException("Unable to retreive file");
+            }
             new Thread(new Runnable() {
                 public void run() {
                     try {
-                        clientSession.getFTPClient().completePendingCommand();
+                        boolean tmp = clientSession.getFTPClient().completePendingCommand();
                     } catch (IOException ex) {
                         clientSession.disconnect();
                         throw new FTPCommandException("Unable to retreive file", ex);

@@ -26,7 +26,7 @@ import lille1.car.asseman_durieux.exception.FTPCommandException;
  */
 @Path("/")
 public class PaserelleFTPImpl implements PaserelleFTP {
-
+    
     @Context
     HttpHeaders requestHeaders;
     @Context
@@ -57,7 +57,14 @@ public class PaserelleFTPImpl implements PaserelleFTP {
             }
             return response.build();
         }
-        return Response.ok(FTPCommand.INSTANCE.getFile(session, path)).build();
+        try {
+            return Response.ok(FTPCommand.INSTANCE.getFile(session, path)).build();
+        } catch (FTPCommandException e) {
+            return Response.ok(e.getMessage()).status(404).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.ok(e.getMessage()).status(404).build();
+        }
     }
 
     /**

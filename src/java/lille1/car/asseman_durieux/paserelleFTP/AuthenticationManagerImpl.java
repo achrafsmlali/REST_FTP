@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import lille1.car.asseman_durieux.exception.AuthenticationException;
 import lille1.car.asseman_durieux.exception.ClientSessionException;
@@ -61,8 +62,8 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
         
         String[] login = parseAuthenticationHeader(authHeaders.get(0));
         // Get username/password
-        String username = login.length > 0 ? "" : login[0];
-        String password = login.length > 1 ? "" : login[1];
+        String username = login.length < 1 ? "" : login[0];
+        String password = login.length < 2 ? "" : login[1];
 
         // verify if the session already exist
         ClientSession session = sessions.get(username + ":" + password);

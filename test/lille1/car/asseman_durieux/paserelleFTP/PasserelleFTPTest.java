@@ -4,7 +4,6 @@ package lille1.car.asseman_durieux.paserelleFTP;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,26 +16,26 @@ import com.jayway.restassured.*;
  * @author asseman
  */
 public class PasserelleFTPTest {
-    
+
     public PasserelleFTPTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
-    
+
     /**
      * Try to access the FTP server without identification, using the getDir command
      */
@@ -47,7 +46,7 @@ public class PasserelleFTPTest {
                 when().
                 get("/PasserelleFTP/rest/dir///tmp/json");
     }
-    
+
     /**
      * Try to access the FTP server without identification, using the getFile command
      */
@@ -97,11 +96,13 @@ public class PasserelleFTPTest {
      */
     @Test
     public void testFileNotFound() {
-        RestAssured.expect().
-                statusCode(404).
-                when().with().authentication().basic("user", "pass").
-                delete("/PasserelleFTP/rest/tmp/azdlkugzadlugzeme5z7zelh");
+
+        RestAssured.expect().given()
+                .auth().preemptive()
+                .basic("user", "pass")
+                .when().get("/PasserelleFTP/rest/tmp/azdlkugzadlugzeme5z7zelh").then()
+                .statusCode(404);
+
     }
-    
     // TODO add test methods for correct requests with the other commands.
 }

@@ -1,5 +1,5 @@
 /**
- * Provides the classes used to log activities
+ * Provides classes used to log activities
  *
  * @author Thomas Durieux
  *

@@ -9,19 +9,19 @@ import java.util.List;
  */
 public class DirectoryImp extends ResourceImp implements Directory {
 
-  List<Resource> listFile;
+    List<Resource> listFile;
 
-  public DirectoryImp() {
-    listFile = new ArrayList<Resource>();
-    super.type = "directory";
-  }
+    public DirectoryImp() {
+        listFile = new ArrayList<Resource>();
+        super.type = "directory";
+    }
 
-  public void addResource(Resource resource) {
-    listFile.add(resource);
-  }
+    public void addResource(Resource resource) {
+        listFile.add(resource);
+    }
 
-  @Override
-  public String toString() {
-    return super.toString();
-  }
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

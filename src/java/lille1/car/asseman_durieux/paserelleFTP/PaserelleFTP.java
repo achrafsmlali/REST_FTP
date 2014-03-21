@@ -32,68 +32,68 @@ import javax.ws.rs.core.Response;
  */
 public interface PaserelleFTP {
 
-  /**
-   * Download a file
-   *
-   * @param path the path to the file
-   *
-   * @return Response
-   */
-  Response getFile(String path);
+    /**
+     * Download a file
+     *
+     * @param path the path to the file
+     *
+     * @return Response
+     */
+    Response getFile(String path);
 
-  /**
-   * Remove a file
-   *
-   * @param path the path to the file
-   *
-   * @return Response
-   */
-  Response removeFile(String path);
+    /**
+     * Remove a file
+     *
+     * @param path the path to the file
+     *
+     * @return Response
+     */
+    Response removeFile(String path);
 
-  /**
-   * Store a file
-   *
-   * @param path the path to the file
-   *
-   * @return Response
-   */
-  Response storeFile(String path, InputStream file);
+    /**
+     * Store a file
+     *
+     * @param path the path to the file
+     *
+     * @return Response
+     */
+    Response storeFile(String path, InputStream file);
 
-  /**
-   * Get a representation of a Directory
-   *
-   * @param path   The path to the direcory
-   * @param format The output format (JSON, XML, HTML)
-   *
-   * @return
-   */
-  Response getDir(String path, String format);
+    /**
+     * Get a representation of a Directory
+     *
+     * @param path The path to the direcory
+     * @param format The output format (JSON, XML, HTML)
+     *
+     * @return
+     */
+    Response getDir(String path, String format);
 
-  /**
-   * Create a directory
-   *
-   * @param path The path to the direcory
-   *
-   * @return
-   */
-  Response mkDir(String path);
+    /**
+     * Create a directory
+     *
+     * @param path The path to the direcory
+     *
+     * @return
+     */
+    Response mkDir(String path);
 
-  /**
-   * Remove a Directory
-   *
-   * @param path The path to the direcory
-   *
-   * @return
-   */
-  Response rmDir(String path);
+    /**
+     * Remove a Directory
+     *
+     * @param path The path to the direcory
+     *
+     * @return
+     */
+    Response rmDir(String path);
 
-  /**
-   * Rename a resource
-   *
-   * @param fromPath the old path of the resource
-   * @param toPath   the new path of the resource
-   *
-   * @return
-   */
-  Response rename(String fromPath, String toPath);
+    /**
+     * Rename a resource
+     *
+     * @param fromPath the old path of the resource
+     * @param toPath the new path of the resource
+     *
+     * @return
+     */
+    Response rename(String fromPath, String toPath);
 }

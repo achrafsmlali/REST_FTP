@@ -20,19 +20,20 @@ Les champs entre '[]' sont optionnels. Les champs en _italique_ sont des variabl
 
 HTTP Méthodes | URL                                 |Body           | Description
 --------------|-------------------------------------|---------------|---------------------------------------------------------------------
-GET           | rest/_filePath_                     |               |Télécharge un fichier
-DELETE        | rest/_filePath_                     |               |Supprime un fichier
-PUT           | rest/_filePath_                     |               |Envoie un fichier
-GET           | rest/dir/_pathDir_/[html/json/xml]  |               |Récupère l'arborescence d'un répertoire au format: html, xml ou json. Le type produit peut également être précisé dans l'entête de la requête.
-POST          | rest/mkdir/_pathDir_                |               |Créer un répertoire
-POST          | rest/rmDir/_pathDir_                |               |Non implémenté
-POST          | rest/rename/_oldPathDir_            |Nouveau chemin |Non implémenté
+GET           | /rest/_filePath_                     |               |Télécharge un fichier
+DELETE        | /rest/_filePath_                     |               |Supprime un fichier
+PUT           | /rest/_filePath_                     |               |Envoie un fichier
+GET           | /rest/dir/_pathDir_/[html/json/xml]  |               |Récupère l'arborescence d'un répertoire au format: html, xml ou json. Le type produit peut également être précisé dans l'entête de la requête.
+POST          | /rest/mkdir/_pathDir_                |               |Créer un répertoire
+POST          | /rest/rmDir/_pathDir_                |               |Non implémenté
+POST          | /rest/rename/_oldPathDir_            |Nouveau chemin |Non implémenté
 
 Packages
 --------
 
+
 Nom                     | Description
---------------------------------------------------------------------------------------------------------------------------------------------
+------------------------|-------------------------------------------------------------------------------------------------------------------
 config                  | Ce package contient les fichiers de configuration de l'application et les classes permettant de les lire. Les différentes configurations sont expliquées dans la section configuration.
 exception               | Ce package contient les exceptions spécifique au domaine de l'application. Les différentes exceptions sont expliquées dans le section configuration.
 passerelleFTP           | Ce package contient le business de l'application.

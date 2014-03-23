@@ -92,10 +92,10 @@ Configuration
 -------------
 Dans le fichier de configuration il est possible de définir l'emplacement du serveur FTP.
 
-´´´
+``
 ftpPort=2121
 ftpHost=localhost
-´´´
+```
 
 fonctionnalités
 ---------

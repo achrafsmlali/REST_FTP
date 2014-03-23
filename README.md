@@ -92,7 +92,7 @@ Configuration
 -------------
 Dans le fichier de configuration il est possible de définir l'emplacement du serveur FTP.
 
-```
+``` ini
 ftpPort=2121
 ftpHost=localhost
 ```

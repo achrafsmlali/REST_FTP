@@ -43,7 +43,7 @@ Interfaces
 ----------
 - config.PasserelleFTPConfiguration
 
-Interface contenant un singleton qui permet d'accéder aux différentes options de la passerelle FTP. Cette interface hérite de l'interface config.PropertiesUtility.
+Interface contenant un singleton qui permet d'accéder aux différentes options de la passerelle FTP. Cette interface hérite de l'interface ```config.PropertiesUtility```.
 
 - config.PropertiesUtility
 
@@ -111,7 +111,7 @@ Ce projet utilise plusieurs annotations misent à disposition par Jersey.
 
 - _@GET_, _@POST_, _@PUT_, _@DELETE_ :
 
-Ces différentes annotations de méthodes sont utilisés dans la classe passerelleFTP.PaserelleFTPImpl pour décrire avec quelle type de méthode HTTP les ressources sont accédées.
+Ces différentes annotations de méthodes sont utilisés dans la classe ```passerelleFTP.PaserelleFTPImpl``` pour décrire avec quelle type de méthode HTTP les ressources sont accédées.
 
 -- L'annotation _@GET_ est utilisée pour récupérer les informations des ressources: télécharger une ressource ou lister un répertoire
 
@@ -123,11 +123,11 @@ Ces différentes annotations de méthodes sont utilisés dans la classe passerel
 
 - _@Context_
 
-Cette annotation est utilisée dans la classe passerelleFTP.PaserelleFTPImpl pour récupérer l'entête de la requête. L'entête de la requête est utilisée pour la connexion de l'utilisateur et pour récupérer le content-type pour lister le contenu d'un répertoire.
+Cette annotation est utilisée dans la classe ```passerelleFTP.PaserelleFTPImpl``` pour récupérer l'entête de la requête. L'entête de la requête est utilisée pour la connexion de l'utilisateur et pour récupérer le content-type pour lister le contenu d'un répertoire.
 
 - _@Path_
 
-Cette annotation est utilisée dans la classe passerelleFTP.PaserelleFTPImpl elle permet de définir l'URL qui doit être utilisée pour accéder à un méthode.
+Cette annotation est utilisée dans la classe ```passerelleFTP.PaserelleFTPImpl``` elle permet de définir l'URL qui doit être utilisée pour accéder à un méthode.
 
 - _@PathParam_
 
@@ -145,7 +145,14 @@ Exemples de code
 
 - Sérialisation des ressources par introspection
 
+``` Java
+
+```
 - Gestion des sessions des connexions au serveur FTP
+
+``` Java
+
+```
 
 fonctionnalités
 ---------

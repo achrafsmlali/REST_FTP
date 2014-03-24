@@ -18,12 +18,15 @@ REST API
 
 Les champs entre '[]' sont optionnels. Les champs en _italique_ sont des variables (ex: _filePath_ est le chemin absolu - à partir de la racine du serveur FTP- vers un fichier du serveur FTP).
 
-HTTP Méthodes | URL                                 |Body           | Description
---------------|-------------------------------------|---------------|---------------------------------------------------------------------
+HTTP Méthodes | URL                                  |Body           | Description
+--------------|--------------------------------------|---------------|--------------------------------------------
 GET           | /rest/_filePath_                     |               |Télécharge un fichier
 DELETE        | /rest/_filePath_                     |               |Supprime un fichier
 PUT           | /rest/_filePath_                     |               |Envoie un fichier
-GET           | /rest/dir/_pathDir_/[html/json/xml]  |               |Récupère l'arborescence d'un répertoire au format: html, xml ou json. Le type produit peut également être précisé dans l'entête de la requête.
+GET           | /rest/dir/_pathDir_/[html/json/xml]  |               |Récupère l'arborescence d'un répertoire au
+                                                                      format: html, xml ou json. Le type produit
+                                                                      peut également être précisé dans l'entête de
+                                                                      la requête.
 POST          | /rest/mkdir/_pathDir_                |               |Créer un répertoire
 POST          | /rest/rmDir/_pathDir_                |               |Non implémenté
 POST          | /rest/rename/_oldPathDir_            |Nouveau chemin |Non implémenté
@@ -33,11 +36,15 @@ Packages
 
 
 Nom                     | Description
-------------------------|-------------------------------------------------------------------------------------------------------------------
-config                  | Ce package contient les fichiers de configuration de l'application et les classes permettant de les lire. Les différentes configurations sont expliquées dans la section configuration.
-exception               | Ce package contient les exceptions spécifique au domaine de l'application. Les différentes exceptions sont expliquées dans le section exception.
+------------------------|-------------------------------------------------------------------------------
+config                  | Ce package contient les fichiers de configuration de l'application et
+                          les classes permettant de les lire. Les différentes configurations
+                          sont expliquées dans la section configuration.
+exception               | Ce package contient les exceptions spécifique au domaine de l'application.
+                          Les différentes exceptions sont expliquées dans le section exception.
 passerelleFTP           | Ce package contient le business de l'application.
-passerelleFTP.resource  | Ce package contient les différentes représentation des ressources accessibles via FTP (répertoire et fichier).
+passerelleFTP.resource  | Ce package contient les différentes représentation des ressources accessibles
+                          via FTP (répertoire et fichier).
 
 Interfaces
 ----------
@@ -110,19 +117,27 @@ Annotations
 Ce projet utilise plusieurs annotations misent à disposition par Jersey.
 
 - @GET, @POST, @PUT, @DELETE
+
 Ces différentes annotations de méthodes sont utilisés dans la classe passerelleFTP.PaserelleFTPImpl pour décrire avec quelle type de méthode HTTP les ressources sont accédées.
+
 -- L'annotation @GET est utilisée pour récupérer les informations des ressources: télécharger une ressource ou lister un répertoire
+
 -- L'annotation @POST est utilisée par la création d'un dossier
+
 -- L'annotation @PUT est utilisée pour le téléversement d'une ressource
+
 -- L'annotation @DELETE est utilisée pour la suppression d'une ressource
 
 - @Context
+
 Cette annotation est utilisée dans la classe passerelleFTP.PaserelleFTPImpl pour récupérer l'entête de la requête. L'entête de la requête est utilisée pour la connexion de l'utilisateur et pour récupérer le content-type pour lister le contenu d'un répertoire.
 
 - @Path
+
 Cette annotation est utilisée dans la classe passerelleFTP.PaserelleFTPImpl elle permet de définir l'URL qui doit être utilisée pour accéder à un méthode.
 
 - @PathParam
+
 Récupérer une variable dans l'URL définie dans l'annotation @Path
 
 - @Consume

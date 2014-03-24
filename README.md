@@ -35,7 +35,7 @@ Packages
 Nom                     | Description
 ------------------------|-------------------------------------------------------------------------------------------------------------------
 config                  | Ce package contient les fichiers de configuration de l'application et les classes permettant de les lire. Les différentes configurations sont expliquées dans la section configuration.
-exception               | Ce package contient les exceptions spécifique au domaine de l'application. Les différentes exceptions sont expliquées dans le section configuration.
+exception               | Ce package contient les exceptions spécifique au domaine de l'application. Les différentes exceptions sont expliquées dans le section exception.
 passerelleFTP           | Ce package contient le business de l'application.
 passerelleFTP.resource  | Ce package contient les différentes représentation des ressources accessibles via FTP (répertoire et fichier).
 
@@ -69,6 +69,13 @@ Interface décrivant les différentes actions disponibles à travers l'API REST.
 
 Interface décrivant une ressource FTP (nom, droit, taille, date de modification, ...). Cette interface décrit aussi les méthodes de sérialisation JSON, XML et HTML.
 
+Classes abstraites
+------------------
+
+- paserelleFTP.resource.ResourceImpl
+
+Cette classe abstraite offre les éléments de base d'une ressources (nom, date de modification, droits, taille,...) cette classe permet également de sérialiser les ressources en JSON, XML et HTML grâce à un système d'introspection. Le système d'introspection sera détaillé dans la section 'Exemple de code'.
+
 Exceptions
 ----------
 Les différentes exceptions crées dans ce projet héritent de la classe RuntimeExcetpion.
@@ -96,6 +103,41 @@ Dans le fichier de configuration il est possible de définir l'emplacement du se
 ftpPort=2121
 ftpHost=localhost
 ```
+
+Annotations
+-----------
+
+Ce projet utilise plusieurs annotations misent à disposition par Jersey.
+
+- @GET, @POST, @PUT, @DELETE
+Ces différentes annotations de méthodes sont utilisés dans la classe passerelleFTP.PaserelleFTPImpl pour décrire avec quelle type de méthode HTTP les ressources sont accédées.
+-- L'annotation @GET est utilisée pour récupérer les informations des ressources: télécharger une ressource ou lister un répertoire
+-- L'annotation @POST est utilisée par la création d'un dossier
+-- L'annotation @PUT est utilisée pour le téléversement d'une ressource
+-- L'annotation @DELETE est utilisée pour la suppression d'une ressource
+
+- @Context
+Cette annotation est utilisée dans la classe passerelleFTP.PaserelleFTPImpl pour récupérer l'entête de la requête. L'entête de la requête est utilisée pour la connexion de l'utilisateur et pour récupérer le content-type pour lister le contenu d'un répertoire.
+
+- @Path
+Cette annotation est utilisée dans la classe passerelleFTP.PaserelleFTPImpl elle permet de définir l'URL qui doit être utilisée pour accéder à un méthode.
+
+- @PathParam
+Récupérer une variable dans l'URL définie dans l'annotation @Path
+
+- @Consume
+
+
+- @Produce
+
+
+
+Exemples de code
+----------------
+
+- Sérialisation des ressources par introspection
+
+- Gestion des sessions des connexions au serveur FTP
 
 fonctionnalités
 ---------

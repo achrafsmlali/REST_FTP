@@ -4,46 +4,47 @@ import lille1.car.asseman_durieux.exception.ClientSessionException;
 import org.apache.commons.net.ftp.FTPClient;
 
 /**
- * Access to all client session data
+ * This interface describes methods to manipulate the session of a client.
  *
  * @author Thomas Durieux
  */
 public interface ClientSession {
 
-    /**
-     * Connect the client to ftp server
-     *
-     * @throws ClientSessionException
-     */
-    void login() throws ClientSessionException;
+  /**
+   * Connect the client to ftp server
+   *
+   * @throws ClientSessionException
+   */
+  void login() throws ClientSessionException;
 
-    /**
-     * Connect the client to ftp server
-     *
-     * @throws ClientSessionException
-     */
-    void connect() throws ClientSessionException;
+  /**
+   * Connect the client to ftp server
+   *
+   * @throws ClientSessionException
+   */
+  void connect() throws ClientSessionException;
 
-    /**
-     * Disconnect the client to ftp server
-     *
-     * @throws ClientSessionException
-     */
-    void disconnect() throws ClientSessionException;
+  /**
+   * Disconnect the client to ftp server
+   *
+   * @throws ClientSessionException
+   */
+  void disconnect() throws ClientSessionException;
 
-    String getUsername();
+  String getUsername();
 
-    void setUsername(String username);
+  void setUsername(String username);
 
-    String getPassword();
+  String getPassword();
 
-    void setPassword(String passwword);
+  void setPassword(String passwword);
 
-    FTPClient getFTPClient();
+  FTPClient getFTPClient();
 
-    /**
-     * If the client is connected to the FTP server
-     * @return true if the client is connected to the FTP server
-     */
-    public boolean isLogged();
+  /**
+   * If the client is connected to the FTP server
+   *
+   * @return true if the client is connected to the FTP server
+   */
+  public boolean isLogged();
 }

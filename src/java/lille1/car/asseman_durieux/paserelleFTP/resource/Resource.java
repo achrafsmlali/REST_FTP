@@ -3,34 +3,50 @@ package lille1.car.asseman_durieux.paserelleFTP.resource;
 import java.util.Date;
 
 /**
+ * This interface discrables the basic data of a FTP resource
  *
  * @author Thomas Durieux
  */
 public interface Resource {
 
-    public String getName();
+  public String getName();
 
-    public void setName(String name);
+  public void setName(String name);
 
-    public Date getCreationDate();
+  public Date getCreationDate();
 
-    public void setCreationDate(Date creationDate);
+  public void setCreationDate(Date creationDate);
 
-    public long getSize();
+  public long getSize();
 
-    public void setSize(long size);
+  public void setSize(long size);
 
-    public String getGroup();
+  public String getGroup();
 
-    public void setGroup(String group);
+  public void setGroup(String group);
 
-    public String getOwner();
+  public String getOwner();
 
-    public void setOwner(String owner);
+  public void setOwner(String owner);
 
-    String toJson();
+  /**
+   * Serialise the ressource to JSON
+   *
+   * @return a JSON representation
+   */
+  String toJson();
 
-    String toHTML();
+  /**
+   * Serialize the ressource to JSON
+   *
+   * @return a HTML representation
+   */
+  String toHTML();
 
-    String toXML();
+  /**
+   * Serialize the ressource to JSON
+   *
+   * @return a XML representation
+   */
+  String toXML();
 }

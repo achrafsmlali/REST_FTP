@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -20,7 +21,7 @@ import lille1.car.asseman_durieux.exception.AuthenticationException;
 import lille1.car.asseman_durieux.exception.FTPCommandException;
 
 /**
- * Access the FTP server through REST request
+ * This class provides REST API to allow client to acces a FTP server
  *
  * @author Thomas Durieux
  */
@@ -217,7 +218,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    * @see PaserelleFTP
    */
   @Override
-  @POST
+  @DELETE
   @Path("/rmDir{path: .*}")
   public Response rmDir(@PathParam("path") String path) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -228,8 +229,8 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @POST
-  @Path("/rename{fromPath: .*}/{toPath: .*}")
-  public Response rename(@PathParam("fromPath") String fromPath, @PathParam("toPath") String toPath) {
+  @Path("/rename{fromPath: .*}")
+  public Response rename(@PathParam("fromPath") String fromPath, @FormParam("toPath") String toPath) {
     throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
   }
 }

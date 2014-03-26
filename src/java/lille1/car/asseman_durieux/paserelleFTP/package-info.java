@@ -1,5 +1,6 @@
 /**
- * Provides the classes related to the business of the application
+ * This package provides communication with de FTP server, a session manager and
+ * the REST API.
  *
  * @author Thomas Durieux
  *

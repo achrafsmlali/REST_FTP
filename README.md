@@ -5,7 +5,7 @@ Auteurs
 -------
 
 Thomas Durieux
-
+Antoine Asseman
 Introduction
 ------------
 
@@ -18,14 +18,14 @@ REST API
 
 Les champs entre '[]' sont optionnels. Les champs en _italique_ sont des variables (ex: _filePath_ est le chemin absolu - à partir de la racine du serveur FTP- vers un fichier du serveur FTP).
 
-HTTP Méthodes | URL                                 |Body           | Description
---------------|-------------------------------------|---------------|---------------------------------------------------------------------
+HTTP Méthodes | URL                                  |Body           | Description
+--------------|--------------------------------------|---------------|---------------------------------------------------------------------
 GET           | /rest/_filePath_                     |               |Télécharge un fichier
 DELETE        | /rest/_filePath_                     |               |Supprime un fichier
 PUT           | /rest/_filePath_                     |               |Envoie un fichier
 GET           | /rest/dir/_pathDir_/[html/json/xml]  |               |Récupère l'arborescence d'un répertoire au format: html, xml ou json. Le type produit peut également être précisé dans l'entête de la requête.
 POST          | /rest/mkdir/_pathDir_                |               |Créer un répertoire
-POST          | /rest/rmDir/_pathDir_                |               |Non implémenté
+DELETE        | /rest/rmDir/_pathDir_                |               |Non implémenté
 POST          | /rest/rename/_oldPathDir_            |Nouveau chemin |Non implémenté
 
 Packages
@@ -84,12 +84,12 @@ Les différentes exceptions crées dans ce projet héritent de la classe Runtime
 
 Exception qui est lancée de la contexte de l'authentification d'un utilisateur.
 L'exception est lancée principalement dans deux cas: informations de connexion manquante ou lorsque les données de connexion sont incorrectes.
-(Exception lancée dans passerelleFTP.AuthenticationManagerImpl aux lignes: 37, 60)
+(Exception lancée dans ```passerelleFTP.AuthenticationManagerImpl``` aux lignes: 37, 60)
 
 - ClientSessionException
-Exception lancée par la classe passerelleFTP.ClientSessionImpl.
+Exception lancée par la classe ```passerelleFTP.ClientSessionImpl```.
 
-Exception qui sert principalement à encapsuler les exceptions FTPCommandException lancées par la classe passerelleFTP.FTPCommandImpl.
+Exception qui sert principalement à encapsuler les exceptions FTPCommandException lancées par la classe ```passerelleFTP.FTPCommandImpl```.
 
 - FTPCommandException
 
@@ -133,26 +133,70 @@ Cette annotation est utilisée dans la classe ```passerelleFTP.PaserelleFTPImpl`
 
 Récupérer une variable dans l'URL définie dans l'annotation @Path
 
-- _@Consume_
+- _@Consumes_
+Cette annotation permet de définir quel les types d’entête acceptés par la méthode, par exemple de content-type.
 
-
-- _@Produce_
-
+- _@Produces_
+Cette annotation permet de définir l'entête de la réponse, en précisent par exemple le type de ressource renvoyée.
 
 
 Exemples de code
 ----------------
 
 - Sérialisation des ressources par introspection
+_paserelleFTP/resource/ResourceImp_
 
 ``` Java
+public String toJson() {
+  String json = "{";
+  // récupère la liste des champs de la classe
+  List<Field> fields = getAllFields();
 
+  for (int i = 0, length = fields.size(); i < length; i++) {
+    Field field = fields.get(i);
+    try {
+      // récupère la valeur du champ
+      Object object = field.get(this);
+      // sérialiser l'objet (supporte les iterables, les resources FTP -par appel récursif-, autrement on utilise le toString)
+      String value = callSerializeMethodOnObject("toJson", object, ",");
+      // format correctement le JSON
+      json += "\"" + field.getName() + "\": " + value + "";
+      if (i < length - 1) {
+        json += ",";
+      }
+    } catch (Throwable ex) {
+      // ignorer les champs qu'on ne peut pas sérialiser
+      continue;
+    }
+  }
+  return json + "}";
+}
 ```
-- Gestion des sessions des connexions au serveur FTP
+- Gestion des connexions lors d'une requête sur l'API REST
 
+_paserelleFTP/paserelleFTPImpl_
 ``` Java
-
+try {
+  // essaye de connecter l'utilisateur sur base de l'entête de la requête
+  session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
+} catch (AuthenticationException e) {
+  // la connexion a échouée, on informe l'utilisateur qu'il n'a pas les droits d'accéder à cette ressource
+  Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+  // si la requête n'est pas une requête AJAX on ajoute l'entête qui permet au navigateur d'afficher un formulaire de connexion
+  List<String> ajaxHeader = requestHeaders.getRequestHeader("X-Requested-With");
+  if (ajaxHeader == null || !requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
+    response = response.header("WWW-Authenticate", "Basic");
+  }
+  // on envoie la réponse à l'utilisateur
+  return response.build();
+}
 ```
+
+
+Exécution
+---------
+
+Pour déployer ce projet, il vous faudra un serveur GlassFish et déployer le projet grâce à l'interface d'administration de votre serveur.
 
 fonctionnalités
 ---------

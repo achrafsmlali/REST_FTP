@@ -32,7 +32,7 @@ DELETE        | /rest/_filePath_                     |               |Supprime u
 PUT           | /rest/_filePath_                     |               |Envoie un fichier
 GET           | /rest/dir/_pathDir_/[html/json/xml]  |               |Récupère l'arborescence d'un répertoire au format: html, xml ou json. Le type produit peut également être précisé dans l'entête de la requête.
 POST          | /rest/mkdir/_pathDir_                |               |Créer un répertoire
-DELETE        | /rest/rmDir/_pathDir_                |               |Non implémenté
+DELETE        | /rest/rmDir/_pathDir_                |               |Supprime un répertoire vide
 POST          | /rest/rename/_oldPathDir_            |Nouveau chemin |Non implémenté
 
 Packages

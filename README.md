@@ -42,9 +42,9 @@ Packages
 Nom                     | Description
 ------------------------|-------------------------------------------------------------------------------------------------------------------
 config                  | Ce package contient les fichiers de configuration de l'application et les classes permettant de les lire. Les différentes configurations sont expliquées dans la section configuration.
-exception               | Ce package contient les exceptions spécifique au domaine de l'application. Les différentes exceptions sont expliquées dans le section exception.
+exception               | Ce package contient les exceptions spécifiques au domaine de l'application. Les différentes exceptions sont expliquées dans la section 'Exception'.
 passerelleFTP           | Ce package contient le business de l'application.
-passerelleFTP.resource  | Ce package contient les différentes représentation des ressources accessibles via FTP (répertoire et fichier).
+passerelleFTP.resource  | Ce package contient les différentes représentations des ressources accessibles via FTP (répertoire et fichier).
 
 Interfaces
 ----------
@@ -62,8 +62,8 @@ Interface contenant un singleton, qui permet de récupérer un objet clientSessi
 
 #### passerelleFTP.ClientSession
 Interface permettant de gérer la session de connexion d'un client  à un serveur FTP.
-Elle permet de le connexion, déconnecter, récupérer son nom d'utilisateur,
-mot de passe et l'objet connecté aux serveur FTP (FTPClient).
+Elle permet de le connecter, déconnecter, récupérer son nom d'utilisateur,
+mot de passe et l'objet connecté au serveur FTP (FTPClient).
 
 #### passerelleFTP.FTPCommand
 Interface contenant un singleton, qui permet de communiquer avec un serveur FTP.
@@ -80,16 +80,16 @@ Classes abstraites
 
 #### paserelleFTP.resource.ResourceImpl
 Cette classe abstraite offre les éléments de base d'une ressources (nom, date de modification, droits, taille,...)
-cette classe permet également de sérialiser les ressources en JSON, XML et HTML
+Elle permet également de sérialiser les ressources en JSON, XML et HTML
 grâce à un système d'introspection. Le système d'introspection sera détaillé
 dans la section 'Exemple de code'.
 
 Exceptions
 ----------
-Les différentes exceptions crées dans ce projet héritent de la classe RuntimeExcetpion.
+Les différentes exceptions créées dans ce projet héritent de la classe RuntimeExcetpion.
 
 #### AuthenticationException
-Exception qui est lancée de la contexte de l'authentification d'un utilisateur.
+Exception qui est lancée dans le contexte de l'authentification d'un utilisateur.
 L'exception est lancée principalement dans deux cas: informations de connexion
 manquante ou lorsque les données de connexion sont incorrectes.
 (Exception lancée dans ```passerelleFTP.AuthenticationManagerImpl``` aux lignes: 37, 60)
@@ -101,12 +101,12 @@ Exception qui sert principalement à encapsuler les exceptions FTPCommandExcepti
 lancées par la classe ```passerelleFTP.FTPCommandImpl```.
 
 #### FTPCommandException
-Exception qui sert principalement à encapsuler les exceptions lancée lors de la
+Exception qui sert principalement à encapsuler les exceptions lancées lors de la
 communication avec le serveur FTP.
 
 Configuration
 -------------
-Dans le fichier de configuration il est possible de définir l'emplacement du serveur FTP.
+Dans le fichier de configuration ```/config/ftp_config.ini```, il est possible de définir l'emplacement du serveur FTP.
 
 ``` ini
 ftpPort=2121
@@ -116,10 +116,10 @@ ftpHost=localhost
 Annotations
 -----------
 
-Ce projet utilise plusieurs annotations misent à disposition par Jersey.
+Ce projet utilise plusieurs annotations mises à disposition par Jersey.
 
 #### _@GET_, _@POST_, _@PUT_, _@DELETE_
-Ces différentes annotations de méthodes sont utilisés dans la classe
+Ces différentes annotations de méthodes sont utilisées dans la classe
  ```passerelleFTP.PaserelleFTPImpl``` pour décrire avec quelle type de méthode
  HTTP les ressources sont accédées.
 
@@ -144,12 +144,12 @@ elle permet de définir l'URL qui doit être utilisée pour accéder à un méth
 Récupérer une variable dans l'URL définie dans l'annotation @Path
 
 #### _@Consumes_
-Cette annotation permet de définir quel les types d’entête acceptés par la méthode,
+Cette annotation permet de définir quels sont les types d’entête acceptés par la méthode,
 par exemple de content-type.
 
 #### _@Produces_
 Cette annotation permet de définir l'entête de la réponse, en précisent
-par exemple le type de ressource renvoyée.
+par exemple le type de ressource renvoyé.
 
 
 Exemples de code
@@ -214,18 +214,17 @@ projet grâce à l'interface d'administration de votre serveur.
 Un serveur FTP doit également être lancé, les informations de localisation (IP et port)
 du serveur FTP peuvent être modifée dans le fichier de configuration ```/config/ftp_config.ini```
 
-fonctionnalités
+Fonctionnalités
 ---------
-* connection (login/mdp) (DONE)
-* lister les fichiers (DONE)
+* connection (login/mdp)
+* lister les fichiers
 * télécharger les fichiers vers un emplacement à sélectionner
 * uploader un fichier (formulaire web)
-* supprimer un fichier (DONE)
+* supprimer un fichier
 * se déconnecter
 
-autres critères
+Autres critères
 ---------------
-* être fonctionnel avec firefox
-* proposer une documentation (en s'inspirant de googlecal API ou twitter API)
-* tests unitaires (bibliothèque rest-assured?)
+* fonctionnel avec firefox
+* tests unitaires utilisant la bibliothèque rest-assured
 * gestion des exceptions

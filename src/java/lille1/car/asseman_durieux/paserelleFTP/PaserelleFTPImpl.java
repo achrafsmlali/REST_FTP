@@ -51,7 +51,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
-      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(Response.Status.UNAUTHORIZED);
       List<String> ajaxHeader = requestHeaders.getRequestHeader("X-Requested-With");
       if (ajaxHeader == null || !requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
         response = response.header("WWW-Authenticate", "Basic");
@@ -87,7 +87,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
-      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(Response.Status.UNAUTHORIZED);
       List<String> ajaxHeader = requestHeaders.getRequestHeader("X-Requested-With");
       if (ajaxHeader == null || !requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
         response = response.header("WWW-Authenticate", "Basic");
@@ -112,14 +112,21 @@ public class PaserelleFTPImpl implements PaserelleFTP {
         }
       }
     }
-    if (f.equals("json")) {
-      return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toJson()).header("Content-Type", "application/json").build();
-    } else if (f.equals("xml")) {
-      return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toXML()).header("Content-Type", "application/xml").build();
-    } else if (f.equals("html")) {
-      return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toHTML()).header("Content-Type", "text/html").build();
+    try {
+      if (f.equals("json")) {
+        return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toJson()).header("Content-Type", "application/json").build();
+      } else if (f.equals("xml")) {
+        return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toXML()).header("Content-Type", "application/xml").build();
+      } else if (f.equals("html")) {
+        return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toHTML()).header("Content-Type", "text/html").build();
+      }
+      return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toJson()).build();
+    } catch (FTPCommandException e) {
+      if (e.getMessage().equals("Folder not found")) {
+        return Response.ok("Folder not found").status(Response.Status.NOT_FOUND).build();
+      }
+      throw e;
     }
-    return Response.ok(FTPCommand.INSTANCE.getDirectory(session, path).toJson()).build();
   }
 
   /**
@@ -139,7 +146,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
-      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(Response.Status.UNAUTHORIZED);
       List<String> ajaxHeader = requestHeaders.getRequestHeader("X-Requested-With");
       if (ajaxHeader == null || !requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
         response = response.header("WWW-Authenticate", "Basic");
@@ -171,7 +178,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
-      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(Response.Status.UNAUTHORIZED);
       List<String> ajaxHeader = requestHeaders.getRequestHeader("X-Requested-With");
       if (ajaxHeader == null || !requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
         response = response.header("WWW-Authenticate", "Basic");
@@ -203,7 +210,7 @@ public class PaserelleFTPImpl implements PaserelleFTP {
     try {
       session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
     } catch (AuthenticationException e) {
-      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(401);
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(Response.Status.UNAUTHORIZED);
       List<String> ajaxHeader = requestHeaders.getRequestHeader("X-Requested-With");
       if (ajaxHeader == null || !requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
         response = response.header("WWW-Authenticate", "Basic");
@@ -219,9 +226,27 @@ public class PaserelleFTPImpl implements PaserelleFTP {
    */
   @Override
   @DELETE
-  @Path("/rmDir{path: .*}")
+  @Path("/rmdir{path: .*}")
   public Response rmDir(@PathParam("path") String path) {
-    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    ClientSession session;
+    if (path == null) {
+      path = "/";
+    }
+    if (path.charAt(0) != '/') {
+      path = "/" + path;
+    }
+    try {
+      session = AuthenticationManager.INSTANCE.getSession(requestHeaders, uriInfo);
+    } catch (AuthenticationException e) {
+      Response.ResponseBuilder response = Response.ok("401 Unauthorized").status(Response.Status.UNAUTHORIZED);
+      List<String> ajaxHeader = requestHeaders.getRequestHeader("X-Requested-With");
+      if (ajaxHeader == null || !requestHeaders.getRequestHeader("X-Requested-With").contains("XMLHttpRequest")) {
+        response = response.header("WWW-Authenticate", "Basic");
+      }
+      return response.build();
+    }
+    FTPCommand.INSTANCE.rmdir(session, path);
+    return Response.ok(" Ok").build();
   }
 
   /**

@@ -14,6 +14,7 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPFile;
 
 /**
+ * This class is used to communicate with the FTP server
  *
  * @author Thomas Durieux
  */

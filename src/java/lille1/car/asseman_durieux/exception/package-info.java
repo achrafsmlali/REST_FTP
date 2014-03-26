@@ -1,5 +1,5 @@
 /**
- * Provides exceptions
+ * Provides specialized exceptions
  *
  * @author Thomas Durieux
  *

@@ -1,6 +1,6 @@
 /**
- * This package provides communication with de FTP server, a session manager and
- * the REST API.
+ * This package provides the communication with the FTP server, a session
+ * manager and the REST API.
  *
  * @author Thomas Durieux
  *

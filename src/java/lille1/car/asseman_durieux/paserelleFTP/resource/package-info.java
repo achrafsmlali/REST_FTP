@@ -1,6 +1,6 @@
 /**
- * Provides the classes used to represent the resources on the server : the
- * files and directories
+ * Provides classes used to represent the FTP resources : the files and
+ * directories
  *
  * @author Thomas Durieux
  */

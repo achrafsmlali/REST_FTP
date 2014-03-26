@@ -1,5 +1,5 @@
 /**
- * Provides the classes used to read configuration
+ * Provides classes used to read configuration file
  *
  * @author Thomas Durieux
  *

@@ -4,7 +4,7 @@ import java.io.InputStream;
 import lille1.car.asseman_durieux.paserelleFTP.resource.Directory;
 
 /**
- * Interface between FTP serveur and REST interface
+ * Interface between FTP server and REST interface
  *
  * @author Thomas Durieux
  */

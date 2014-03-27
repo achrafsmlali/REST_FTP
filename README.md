@@ -208,14 +208,14 @@ try {
 Exécution
 ---------
 
-Pour déployer ce projet, il vous faudra un serveur GlassFish et déployer le
-projet grâce à l'interface d'administration de votre serveur.
+Pour déployer ce projet, un serveur GlassFish est nécessaire. Il faut déployer le fichier ```TP_REST_Asseman_Durieux.war```
+grâce à l'interface d'administration du serveur.
 
 Un serveur FTP doit également être lancé, les informations de localisation (IP et port)
-du serveur FTP peuvent être modifée dans le fichier de configuration ```/config/ftp_config.ini```
+du serveur FTP peuvent être modifiées dans le fichier de configuration ```/config/ftp_config.ini```
 
 Fonctionnalités
----------
+---------------
 * connection (login/mdp)
 * lister les fichiers
 * télécharger les fichiers vers un emplacement à sélectionner
